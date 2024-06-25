@@ -23,10 +23,10 @@ public class MeadowApp_LedStripAsMicroGraphics : App<F7CoreComputeV2>
     Apa102? apa102;
     const int numberOfLeds = 15;
     const float maxBrightness = 0.001f;
-    int cursorLocation = 0;
+    // int cursorLocation = 0;
     Color cursorColor = Color.Red;
     Vector3 angle = new Vector3(0, 0, 0);
-    bool handleGyroscope = true;
+    // bool handleGyroscope = true;
 
     public override Task Initialize()
     {
