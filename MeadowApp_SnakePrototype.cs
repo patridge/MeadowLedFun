@@ -29,7 +29,8 @@ public class MeadowApp : App<F7CoreComputeV2>
 
     IProjectLabHardware? projectLab;
     Apa102? apa102;
-    const int numberOfLeds = 15;
+    const int numberOfLeds = 51; // longer, high-density strand
+    //const int numberOfLeds = 15; // short strand
     const float maxBrightness = 0.25f;
     float tiltAngleThreshold = 0.25f;
     readonly TimeSpan sensorUpdateTime = TimeSpan.FromMilliseconds(100);
@@ -45,9 +46,9 @@ public class MeadowApp : App<F7CoreComputeV2>
 
         Resolver.Log.Info($"Running on ProjectLab Hardware {projectLab.RevisionString}");
 
-        if (projectLab.RgbLed is { } rgbLed)
+        if (projectLab.RgbLed is { } statusRgbLed)
         {
-            rgbLed.SetColor(Color.Blue);
+            statusRgbLed.SetColor(Color.Blue);
         }
 
         // if (projectLab.Display is { } display)
@@ -62,12 +63,13 @@ public class MeadowApp : App<F7CoreComputeV2>
 
         if (projectLab.UpButton is { } upButton)
         {
-            // upButton.Clicked += (s, e) => {
-            //     if (cursorColor == Color.Red) { cursorColor = Color.Green; }
-            //     else if (cursorColor == Color.Green) { cursorColor = Color.Blue; }
-            //     else { cursorColor = Color.Red; }
-            //     DrawLights(ledDisplay);
-            // };
+            upButton.Clicked += (s, e) => {
+                var cursorColor = snakeDisplay.SnakeColor;
+                if (cursorColor == Color.Red) { snakeDisplay.SnakeColor = Color.Green; }
+                else if (cursorColor == Color.Green) { snakeDisplay.SnakeColor = Color.Blue; }
+                else { snakeDisplay.SnakeColor = Color.Red; }
+                DrawLights(snakeDisplay);
+            };
         }
         if (projectLab.DownButton is { } downButton)
         {
@@ -251,7 +253,6 @@ public class MeadowApp : App<F7CoreComputeV2>
                 newHeadIndex = 0;
             }
 
-            // TODO: Left off here with Move failing to happen (0 -> 0)
             head.Move(newHeadIndex);
         }
         public void MoveRight()
@@ -267,7 +268,6 @@ public class MeadowApp : App<F7CoreComputeV2>
                 newHeadIndex = numberOfLeds - 1;
             }
 
-            // TODO: Left off here with Move failing to happen (0 -> 0)
             head.Move(newHeadIndex);
         }
         // TODO: Handle brightness and/or color variation when drawing the body.
