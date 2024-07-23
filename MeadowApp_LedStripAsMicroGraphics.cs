@@ -15,13 +15,13 @@ namespace LedFun;
 
 // Change F7FeatherV2 to F7FeatherV1 if using Feather V1 Meadow boards
 // Change to F7CoreComputeV2 for Project Lab V3.x
-public class MeadowApp_LedStripAsMicroGraphics : App<F7CoreComputeV2>
+public class MeadowApp_LedStripAsMicroGraphics : App<F7CoreComputeV2>//MeadowApp_LedStripAsMicroGraphics : App<F7CoreComputeV2>
 {
     IProjectLabHardware? projectLab;
-    DisplayController? displayController;
+    // DisplayController? displayController;
     MicroGraphics? graphics;
     Apa102? apa102;
-    const int numberOfLeds = 15;
+    const int numberOfLeds = 51;
     const float maxBrightness = 0.001f;
     // int cursorLocation = 0;
     Color cursorColor = Color.Red;
@@ -45,7 +45,7 @@ public class MeadowApp_LedStripAsMicroGraphics : App<F7CoreComputeV2>
         if (projectLab.Display is { } display)
         {
             Resolver.Log.Trace("Creating DisplayController");
-            displayController = new DisplayController(display, projectLab.RevisionString);
+            // displayController = new DisplayController(display, projectLab.RevisionString);
             Resolver.Log.Trace("DisplayController up");
         }
 
@@ -61,11 +61,14 @@ public class MeadowApp_LedStripAsMicroGraphics : App<F7CoreComputeV2>
     {
         Resolver.Log.Info("Run...");
 
-        Resolver.Log.Info("starting blink");
+        Resolver.Log.Info("drawing rect");
+
+        apa102!.SetLed(0, Color.Green);
 
         graphics!.PenColor = Color.Blue;
-        // graphics.DrawLine(1, 0, 5, 0);
-        graphics.DrawLine(0, 0, 5, 5);
+        graphics.DrawLine(6, 0, 5, 0);
+        // graphics!.PenColor = Color.Orange;
+        // graphics.DrawRectangle(4, 0, 5, 5);
         // graphics.DrawCircle(0, 0, 100, filled: true);
         graphics.Show();
 
